@@ -1,0 +1,22 @@
+---
+- name: Yaml Playbook to fetch the App module version deployed on each server
+  hosts: DIT
+  gather_facts: True
+  ignore_errors: False
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address
+  roles:
+    - role : node_fetch
+      AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/
+      EnvName: dit1
+      when: ansible_default_ipv4.address    == '10.0.2.15'
+
+    - role : node_fetch
+      AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/
+      EnvName: dit2
+      when: ansible_default_ipv4.address    == '10.0.2.15'
+
+
+...
+

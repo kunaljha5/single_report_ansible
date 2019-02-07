@@ -1,0 +1,31 @@
+---
+ - name: Checking the Variable Values   
+   debug:
+     msg: " {{ EnvName }} {{ AppPath }} "
+ 
+ - name: Find command to search .MF files and store the file names in find_Output register
+   shell: "find -name *.MF"
+   args:
+     chdir: "{{ AppPath }}"
+   register: find_output
+
+
+
+ - name: Read the find_Output register file names and store their data  to report_out 
+   shell: cat {{ AppPath }}/{{ item }} | egrep 'Module-Name|Built-Version' 
+   with_items:
+     - "{{ find_output.stdout_lines }}"
+   register: report_out
+
+
+ - name: Make a single file for each environmonet for all the deployed modules and version in txt format
+   shell: echo  "{{ item.stdout }}" >> status_{{ EnvName }}.txt
+   delegate_to: 127.0.0.1
+   with_items:
+     - "{{ report_out.results }}"
+   register: execution_of_shell
+   
+
+ - name: Create report_env.csv file  having module name and module version in comma seprated format
+   shell: cat status_{{ EnvName }}.txt |  cut -d':' -f2 | paste -d, - -|sed "s| ||g" > report_{{ EnvName }}.csv
+   delegate_to: 127.0.0.1
