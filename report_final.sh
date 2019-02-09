@@ -17,7 +17,7 @@ cat report_*csv| cut -d, -f1|sort| uniq | while read line ;
 do
 # starting the for loop below for each report_*csv file i.e report_dit1.csv , report_dit2.csv report_sit1.csv 
 
-        for i in `ls  report_*csv`;
+        for i in `ls  report_*csv | grep -v report_final.csv`;
         do
                 # This step verifies that x module is present on which env and if its not present it will be placed as - in final csv file. 
                 cat $i | grep "$line" 2>/dev/null 1>/dev/null
