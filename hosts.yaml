@@ -3,6 +3,15 @@
   hosts: DIT                                                       # this is the server group for which we want to execute this playbook
   gather_facts: True                                               # we want to gater facts about the remote systems so we can use them
   ignore_errors: False                                             # Generally playbooks will stop executing any more steps on a host that has a task fail. Sometimes, though, you want to continue on. To do so, we use this
+######## adding new logic from here 1.1  
+  tasks:
+   - name: Execute Shell command to remove old files 
+     shell: |
+	        rm -rf  report_*.csv Report_finalR.csv  status*txt
+     delegate_to: 127.0.0.1                                           # this step make sure we execute this task on local system.
+######## ending new logic here 1.1  
+
+			
   roles:
     - role : node_fetch                                               # Invoking node_fetch role to be executed with below variables only if when condition is true
       AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/   # Setting the application variable here only if when condition is true
@@ -21,4 +30,3 @@
 
 
 ...
-
