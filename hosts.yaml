@@ -6,8 +6,7 @@
 ######## adding new logic from here 1.1  
   tasks:
    - name: Execute Shell command to remove old files 
-     shell: |
-	    rm -rf  report_*.csv Report_finalR.csv  status*txt
+     shell: rm -rf  report_*.csv Report_finalR.csv  status*txt
      delegate_to: 127.0.0.1                                           # this step make sure we execute this task on local system.
 ######## ending new logic here 1.1  
 
