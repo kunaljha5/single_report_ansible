@@ -10,7 +10,6 @@
      delegate_to: 127.0.0.1                                           # this step make sure we execute this task on local system.
 ######## ending new logic here 1.1  
 
-			
   roles:
     - role : node_fetch                                               # Invoking node_fetch role to be executed with below variables only if when condition is true
       AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/   # Setting the application variable here only if when condition is true
