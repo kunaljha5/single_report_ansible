@@ -1,2 +1,1 @@
----
-# vars file for node_fetch
+  Version_dict : { 'moudle1': '5.1.1.2'} 

@@ -2,39 +2,31 @@
  - name: Checking the Variable Values                                                                         # this is just giving the task tag
    debug:                                                                                                     # debug task invoked
      msg: " {{ EnvName }} {{ AppPath }} "                                                                     # printing the Variables Supplied to this role from main playbook.
- 
- ######## adding new logic from here 1.1  
- # this step make sure we execute this task on local system.
 
- - name: Execute shell command to remove old files.
-   shell: rm -rf *csv *txt
-   delegate_to: dit1
-   run_once: true
-  ######## ending new logic here 1.1  
 
  - name: Find command to search .MF files and store the file names in find_Output register                    # task brief headline
    shell: "find -name *.MF"                                                                                   # using the shell module to execute find command to search file names with '*.MF' patter
    args:
      chdir: "{{ AppPath }}"                                                                                   # Argument is the path in which we want to search these *.MF files
-   register: find_output                                                                                      # we are registering all the output in register format for futher processing.   
+   register: find_output                                                                                      # we are registering all the output in register format for futher processing.
 
 
 
- - name: Read the find_Output register file names and store their data  to report_out                         # task brief headline 
-   shell: cat {{ AppPath }}/{{ item }} | egrep 'Module-Name|Built-Version'                                    # shell module reading/concatinating the files one by one and extended greping two patterns 'Built-Version and Module Name' 
+ - name: Read the find_Output register file names and store their data  to report_out                         # task brief headline
+   shell: cat {{ AppPath }}/{{ item }} | egrep 'Module-Name|Built-Version'                                    # shell module reading/concatinating the files one by one and extended greping two patterns 'Built-Version and Module Name'
    with_items:                                                                                                # trigger to loop
      - "{{ find_output.stdout_lines }}"                                                                       # execute loop for each stdout_lines came from the find command and stored in the register
    register: report_out                                                                                       # register all the stdout of the cat command
 
 
  - name: Make a single file for each environmonet for all the deployed modules and version in txt format      # task brief headline
-   shell: echo  "{{ item.stdout }}" >> status_{{ EnvName }}.txt                                               # using shell module we are appending output in status_env?.txt files on local system  
-   delegate_to: 127.0.0.1                                                                                     # making sure we are stroing the files on local system
+   shell: echo  "{{ item.stdout }}" >> ./node_fetch/vars/status_{{ EnvName }}.txt                                               # using shell module we are appending output in status_env?.txt files on local system
+   delegate_to: localhost                                                                                     # making sure we are stroing the files on local system
    with_items:                                                                                                # trigger to loop
      - "{{ report_out.results }}"                                                                             # execute loop for each results stored in  last step
    register: execution_of_shell
-   
+
 
  - name: Create report_env.csv file  having module name and module version in comma seprated format                            # task breif headline
-   shell: cat status_{{ EnvName }}.txt |  tr -d $'\r'|cut -d':' -f2 | paste -d, - -|sed "s| ||g" > report_{{ EnvName }}.csv    # reading status_env?.txt files and remove \r from each lines of file and the using cut command we are getting the second column as output and then we are using paste command to get the module name and version values in single lne 
-   delegate_to: 127.0.0.1                                                                                                      # make sure this script executed  on local system.
+   shell: cat ./node_fetch/vars/status_{{ EnvName }}.txt |  tr -d $'\r'|cut -d':' -f2 | paste -d, - -|sed "s| ||g" > ./node_fetch/vars/report_{{ EnvName }}.csv
+   delegate_to: localhost                                                                                                     # make sure this script executed  on local system.

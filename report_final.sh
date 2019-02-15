@@ -1,6 +1,5 @@
 #!/bin/bash
-
-
+cd node_fetch/vars/
 
 ###### First Function Starts  Here
 
@@ -107,12 +106,6 @@ rm -rf Report_finalR.csv
 
 
 root_final > final_report.csv
-if [[ $? -eq 0 ]]
-then
-        echo "Final Report file stored at final_report.csv"
-else
-        echo "Process of Final Report file failed."
-fi
 
 
 dest_node=$1
@@ -122,4 +115,4 @@ src_node=$2
 
 root_master_compare > Filter_Report.csv
 
-
+cat Filter_Report.csv | sed "s|^|'|g"|sed "s|,|': '|g"|sed "s|$|',|g"|tr '\n' ' '|sed "s|^|{ |g"|sed "s|, $|}|g"|sed "s|^|  Version_dict : |g"
