@@ -3,6 +3,15 @@
    debug:                                                                                                     # debug task invoked
      msg: " {{ EnvName }} {{ AppPath }} "                                                                     # printing the Variables Supplied to this role from main playbook.
  
+ ######## adding new logic from here 1.1  
+ # this step make sure we execute this task on local system.
+
+ - name: Execute shell command to remove old files.
+   shell: rm -rf *csv *txt
+   delegate_to: dit1
+   run_once: true
+  ######## ending new logic here 1.1  
+
  - name: Find command to search .MF files and store the file names in find_Output register                    # task brief headline
    shell: "find -name *.MF"                                                                                   # using the shell module to execute find command to search file names with '*.MF' patter
    args:
