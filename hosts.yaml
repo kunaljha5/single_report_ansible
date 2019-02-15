@@ -15,12 +15,12 @@
     - role : node_fetch                                               # Invoking node_fetch role to be executed with below variables only if when condition is true
       AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/   # Setting the application variable here only if when condition is true
       EnvName: dit1                                                   # Setting the environment name variable here only if when condition is true
-      when: ansible_default_ipv4.address    == '10.0.2.15'            # This when condition will trigger the node_fetch role only when ip address matches. 
+      when: ansible_hostname    == 'machine1'            # This when condition will trigger the node_fetch role only when ip address matches. 
 
     - role : node_fetch                                               # Invoking node_fetch role to be executed with below variables only if when condition is true
       AppPath: /ciohosting/cce2e/{{ EnvName }}/cce2e-383-mule/apps/   # Setting the application variable here only if when condition is true
       EnvName: dit2                                                   # Setting the environment name variable here only if when condition is true
-      when: ansible_default_ipv4.address    == '10.0.2.15'            # This when condition will trigger the node_fetch role only when ip address matches. 
+      when: ansible_hostname    == 'machine2'            # This when condition will trigger the node_fetch role only when ip address matches. 
   tasks:
    - name: execute report_final.sh script to generate final .csv file.
      shell: ./report_final.sh "{{ dest_node }}" "{{ src_node }}"      # this shell module will trigger report_final.sh and this will analyze the report_env?.csv files and create a file report_final.csv with all environmnet and their modules version. and also it wil create a file with all the version that are present on source and missing on dest node.  
