@@ -1,6 +1,6 @@
 [DIT]
 DIT1 ansible_ssh_host=10.0.2.15
-DIT2 ansible_ssh_host=10.0.2.19
+DIT2 ansible_ssh_host=10.0.2.15
 
 [SIT]
 SIT1 ansible_ssh_host=172.21.31.1

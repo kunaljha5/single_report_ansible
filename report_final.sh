@@ -16,21 +16,23 @@ cat report_*csv| cut -d, -f1|sort| uniq | while read line ;
 do
 # starting the for loop below for each report_*csv file i.e report_dit1.csv , report_dit2.csv report_sit1.csv 
 
-        for i in `ls  report_*csv | grep -v final_report.csv`;
+        for i in `ls  report_*csv `;
         do
                 # This step verifies that x module is present on which env and if its not present it will be placed as - in final csv file. 
                 cat $i | grep "$line" 2>/dev/null 1>/dev/null
                 
                 if [[ $? -eq 0 ]]; then
                 
-                        grep $line $i |cut -d, -f2;
+                        var1=$(grep $line $i |cut -d, -f2); 
+                        echo -n "$var1,"
                 
                 else
                 
-                        echo "-"
+                        echo -n "-,"
                 
                 fi
-        done |paste -d, - - |sed "s|^|$line,|g" ;
+        done  |sed "s|^|$line,|g"| sed "s|.$|\n|g" ;
+         
 done
 }
 ###### First Function Ended  Here
@@ -116,3 +118,4 @@ src_node=$2
 root_master_compare > Filter_Report.csv
 
 cat Filter_Report.csv | sed "s|^|'|g"|sed "s|,|': '|g"|sed "s|$|',|g"|tr '\n' ' '|sed "s|^|{ |g"|sed "s|, $|}|g"|sed "s|^|  Version_dict : |g"
+

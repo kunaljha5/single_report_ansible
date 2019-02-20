@@ -1,6 +1,6 @@
 ---
 - name: Yaml Playbook to fetch the App module version deployed on each server
-  hosts: all                                                       # this is the server group for which we want to execute this playbook
+  hosts: DIT                                                       # this is the server group for which we want to execute this playbook
   gather_facts: True                                               # we want to gater facts about the remote systems so we can use them
   ignore_errors: False                                             # Generally playbooks will stop executing any more steps on a host that has a task fail. Sometimes, though, you want to continue on. To do so, we use this
 
@@ -30,10 +30,10 @@
      with_items:
        - "{{ valuable_input.stdout }}"
 
-   - name: clear the temp file from the node_fetch/vars path
-     shell: rm ./node_fetch/vars/*txt  ./node_fetch/vars/*csv
-     delegate_to: localhost
-     run_once: true
+         #   - name: clear the temp file from the node_fetch/vars path
+         #     shell: rm ./node_fetch/vars/*txt  ./node_fetch/vars/*csv
+         #     delegate_to: localhost
+         #     run_once: true
 
 
 ...
