@@ -40,3 +40,9 @@ if __name__ == '__main__':
 
 #data = dict_diff(data1,data2)
 #print data
+# 
+#>>> src
+#{'moudle2': '5.1.1.1', 'api-gateway': '3.1.0.1'}
+#>>> dest
+#{'moudle1': '5.1.1.2', 'moudle2': '5.1.1.2', 'api-gateway': '3.1.0.1'}
+#>>>
