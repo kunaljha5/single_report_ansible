@@ -36,7 +36,7 @@ if __name__ == '__main__':
 #dest = sys.argv[2]
 #data1=json.loads(src)
 #data2=json.loads(dest)
-
+#https://medium.com/@heenashree2010/create-a-custom-module-with-ansible-python-6285874a09b4
 
 #data = dict_diff(data1,data2)
 #print data
